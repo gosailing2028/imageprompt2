@@ -1,0 +1,6 @@
+{
+  "/api/tools/image-to-prompt/route": "app/api/tools/image-to-prompt/route.js",
+  "/[lang]/(marketing)/page": "app/[lang]/(marketing)/page.js",
+  "/[lang]/(auth)/login/page": "app/[lang]/(auth)/login/page.js",
+  "/[lang]/tools/image-to-prompt/page": "app/[lang]/tools/image-to-prompt/page.js"
+}
