@@ -2,13 +2,8 @@
   "github": {
     "silent": true
   },
-  "buildCommand": "cd ../.. && npm run build",
-  "outputDirectory": "apps/nextjs/.next",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "functions": {
-    "apps/nextjs/src/app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "buildCommand": "cd ../.. && npx browserslist@latest --update-db && npm run build",
+  "outputDirectory": "apps/nextjs/.next/standalone",
+  "installCommand": "npm ci",
+  "framework": "nextjs"
 }
