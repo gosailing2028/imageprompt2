@@ -2,7 +2,7 @@
   "github": {
     "silent": true
   },
-  "buildCommand": "npm install --force && npx browserslist@latest --update-db && npm run build",
+  "buildCommand": "cp package-deploy.json package.json && npm install && npx browserslist@latest --update-db && npm run build",
   "outputDirectory": ".next",
   "installCommand": "echo 'Using buildCommand for installation'",
   "framework": "nextjs"
