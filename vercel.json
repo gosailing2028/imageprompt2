@@ -2,8 +2,8 @@
   "github": {
     "silent": true
   },
-  "buildCommand": "npm install --force && npx browserslist@latest --update-db && npm run build",
+  "buildCommand": "npx browserslist@latest --update-db && npm run build",
   "outputDirectory": "apps/nextjs/.next",
-  "installCommand": "echo 'Skip install, using buildCommand'",
+  "installCommand": "npm install --force",
   "framework": "nextjs"
 }
