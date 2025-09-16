@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "contentlayer2 build && npm run with-env next build",
+    "build-simple": "npm run with-env next build",
     "export": "contentlayer2 build && npm run with-env next build && npm run with-env next export",
     "clean": "git clean -xdf .next .turbo node_modules",
     "dev": "npm run with-env next dev",

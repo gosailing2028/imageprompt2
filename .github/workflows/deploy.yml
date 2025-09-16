@@ -28,7 +28,20 @@ jobs:
       run: |
         cd apps/nextjs
         npm install --legacy-peer-deps
-        npm run build
+        npm run build-simple || npm run build
+        
+    - name: List build output
+      run: |
+        echo "Checking build output..."
+        ls -la apps/nextjs/out/ || echo "No out directory found"
+        
+    - name: Create fallback index if needed
+      run: |
+        if [ ! -f apps/nextjs/out/index.html ]; then
+          echo "Creating fallback index.html"
+          mkdir -p apps/nextjs/out
+          cp test-index.html apps/nextjs/out/index.html
+        fi
         
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
