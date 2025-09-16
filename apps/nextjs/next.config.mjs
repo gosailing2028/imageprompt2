@@ -13,8 +13,6 @@ const config = {
   typescript: { ignoreBuildErrors: true },
   output: "export",
   trailingSlash: true,
-  basePath: "/imageprompt2",
-  assetPrefix: "/imageprompt2",
 };
 
 export default config;

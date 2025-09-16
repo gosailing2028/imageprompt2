@@ -43,17 +43,25 @@ jobs:
         mkdir -p deploy
         # Copy root index.html
         cp index.html deploy/
-        # Copy Next.js build if it exists
+        
+        # Check if Next.js build succeeded
         if [ -d apps/nextjs/out ]; then
-          echo "Copying Next.js build output..."
-          cp -r apps/nextjs/out/* deploy/ 2>/dev/null || echo "No Next.js output to copy"
+          echo "Next.js build found, copying to /imageprompt2/ subdirectory..."
+          mkdir -p deploy/imageprompt2
+          cp -r apps/nextjs/out/* deploy/imageprompt2/ 2>/dev/null || echo "Failed to copy Next.js output"
+          # Also copy to root for direct access
+          cp -r apps/nextjs/out/* deploy/ 2>/dev/null || echo "Failed to copy to root"
         else
-          echo "No Next.js output directory found, using fallback"
-          cp test-index.html deploy/index.html
+          echo "No Next.js output directory found, creating fallback imageprompt2 directory"
+          mkdir -p deploy/imageprompt2
+          cp test-index.html deploy/imageprompt2/index.html
         fi
+        
         # List final deployment directory
         echo "Final deployment directory contents:"
         ls -la deploy/
+        echo "imageprompt2 subdirectory contents:"
+        ls -la deploy/imageprompt2/ 2>/dev/null || echo "No imageprompt2 directory"
         
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
