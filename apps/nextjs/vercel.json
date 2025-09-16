@@ -4,6 +4,6 @@
   },
   "buildCommand": "npx browserslist@latest --update-db && npm run build",
   "outputDirectory": ".next",
-  "installCommand": "cp package-deploy.json package.json && npm install",
+  "installCommand": "npm install",
   "framework": "nextjs"
 }
