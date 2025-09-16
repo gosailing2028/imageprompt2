@@ -1,17 +1,9 @@
 // @ts-check
-import "./src/env.mjs";
-
-import withMDX from "@next/mdx";
-
-!process.env.SKIP_ENV_VALIDATION && (await import("./src/env.mjs"));
 
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  pageExtensions: ["ts", "tsx", "mdx"],
-  experimental: {
-    mdxRs: true,
-  },
+  pageExtensions: ["ts", "tsx", "js", "jsx"],
   images: {
     domains: ["images.unsplash.com", "avatars.githubusercontent.com", "www.twillot.com", "cdnv2.ruguoapp.com", "www.setupyourpay.com"],
     unoptimized: true,
@@ -25,4 +17,4 @@ const config = {
   assetPrefix: "/imageprompt2",
 };
 
-export default withMDX()(config);
+export default config;

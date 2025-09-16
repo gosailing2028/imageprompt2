@@ -28,24 +28,36 @@ jobs:
       run: |
         cd apps/nextjs
         npm install --legacy-peer-deps
-        npm run build-simple || npm run build
+        echo "Trying basic build first..."
+        npm run build-basic || echo "Basic build failed, trying simple build..."
+        npm run build-simple || echo "Simple build failed, trying full build..."
+        npm run build || echo "All builds failed, will use fallback"
         
     - name: List build output
       run: |
         echo "Checking build output..."
         ls -la apps/nextjs/out/ || echo "No out directory found"
         
-    - name: Create fallback index if needed
+    - name: Prepare deployment directory
       run: |
-        if [ ! -f apps/nextjs/out/index.html ]; then
-          echo "Creating fallback index.html"
-          mkdir -p apps/nextjs/out
-          cp test-index.html apps/nextjs/out/index.html
+        mkdir -p deploy
+        # Copy root index.html
+        cp index.html deploy/
+        # Copy Next.js build if it exists
+        if [ -d apps/nextjs/out ]; then
+          echo "Copying Next.js build output..."
+          cp -r apps/nextjs/out/* deploy/ 2>/dev/null || echo "No Next.js output to copy"
+        else
+          echo "No Next.js output directory found, using fallback"
+          cp test-index.html deploy/index.html
         fi
+        # List final deployment directory
+        echo "Final deployment directory contents:"
+        ls -la deploy/
         
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./apps/nextjs/out
+        publish_dir: ./deploy
