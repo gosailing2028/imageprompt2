@@ -3,70 +3,35 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
         
-    - name: Install dependencies
+    - name: Create deployment directory
       run: |
-        npm install --legacy-peer-deps
+        # Create deployment directory
+        mkdir -p public
         
-    - name: Build project
-      run: |
-        cd apps/nextjs
-        npm install --legacy-peer-deps
-        echo "Trying basic build first..."
-        npm run build-basic || echo "Basic build failed, trying simple build..."
-        npm run build-simple || echo "Simple build failed, trying full build..."
-        npm run build || echo "All builds failed, will use fallback"
-        
-    - name: List build output
-      run: |
-        echo "Checking build output..."
-        ls -la apps/nextjs/out/ || echo "No out directory found"
-        
-    - name: Prepare deployment directory
-      run: |
-        mkdir -p deploy
         # Copy root index.html
-        cp index.html deploy/
+        cp index.html public/
         
-        # Always deploy the static app version
-        echo "Deploying static app version..."
-        mkdir -p deploy/imageprompt2
-        cp -r static-app/* deploy/imageprompt2/
+        # Copy static app to imageprompt2 subdirectory
+        mkdir -p public/imageprompt2
+        cp static-app/index.html public/imageprompt2/
         
-        # Try to build and deploy Next.js version as backup
-        if [ -d apps/nextjs/out ]; then
-          echo "Next.js build found, copying as backup..."
-          mkdir -p deploy/nextjs-app
-          cp -r apps/nextjs/out/* deploy/nextjs-app/ 2>/dev/null || echo "Failed to copy Next.js output"
-        else
-          echo "No Next.js output directory found, using static version only"
-        fi
-        
-        # List final deployment directory
-        echo "Final deployment directory contents:"
-        ls -la deploy/
-        echo "imageprompt2 subdirectory contents:"
-        ls -la deploy/imageprompt2/ 2>/dev/null || echo "No imageprompt2 directory"
+        # List what we're deploying
+        echo "=== Deployment directory structure ==="
+        find public -type f
+        echo "=== End of file list ==="
         
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./deploy
+        publish_dir: ./public
+        force_orphan: true

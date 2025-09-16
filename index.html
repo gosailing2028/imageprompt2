@@ -7,18 +7,32 @@
         body { font-family: Arial, sans-serif; margin: 40px; }
         .link-test { margin: 10px 0; }
         .status { color: #666; font-size: 0.9em; }
+        .redirect-notice { 
+            background: #e7f3ff; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
     </style>
+    <script>
+        // 自动跳转到应用页面
+        setTimeout(function() {
+            window.location.href = './imageprompt2/';
+        }, 3000);
+    </script>
 </head>
 <body>
     <h1>🎨 ImagePrompt2 - AI图像转提示词生成器</h1>
-    <p>欢迎使用 ImagePrompt2！这是一个强大的AI图像转提示词生成工具。</p>
+    
+    <div class="redirect-notice">
+        <strong>🚀 正在跳转到应用...</strong>
+        <p>3秒后自动跳转到主应用，或者点击下面的链接直接访问：</p>
+    </div>
     
     <h2>🔗 访问链接</h2>
     <div class="link-test">
-        <strong>主应用:</strong> <a href="./imageprompt2/">进入 ImagePrompt2 应用</a>
-    </div>
-    <div class="link-test">
-        <strong>备用链接:</strong> <a href="./imageprompt2/index.html">直接访问应用首页</a>
+        <strong>主应用:</strong> <a href="./imageprompt2/">🎯 立即使用 ImagePrompt2</a>
     </div>
     
     <h2>📋 功能特色</h2>
