@@ -44,17 +44,18 @@ jobs:
         # Copy root index.html
         cp index.html deploy/
         
-        # Check if Next.js build succeeded
+        # Always deploy the static app version
+        echo "Deploying static app version..."
+        mkdir -p deploy/imageprompt2
+        cp -r static-app/* deploy/imageprompt2/
+        
+        # Try to build and deploy Next.js version as backup
         if [ -d apps/nextjs/out ]; then
-          echo "Next.js build found, copying to /imageprompt2/ subdirectory..."
-          mkdir -p deploy/imageprompt2
-          cp -r apps/nextjs/out/* deploy/imageprompt2/ 2>/dev/null || echo "Failed to copy Next.js output"
-          # Also copy to root for direct access
-          cp -r apps/nextjs/out/* deploy/ 2>/dev/null || echo "Failed to copy to root"
+          echo "Next.js build found, copying as backup..."
+          mkdir -p deploy/nextjs-app
+          cp -r apps/nextjs/out/* deploy/nextjs-app/ 2>/dev/null || echo "Failed to copy Next.js output"
         else
-          echo "No Next.js output directory found, creating fallback imageprompt2 directory"
-          mkdir -p deploy/imageprompt2
-          cp test-index.html deploy/imageprompt2/index.html
+          echo "No Next.js output directory found, using static version only"
         fi
         
         # List final deployment directory
